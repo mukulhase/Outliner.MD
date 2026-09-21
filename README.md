@@ -1,3 +1,16 @@
+> **Unofficial fork.** This is a patched build of
+> [Quorafind/Outliner.MD](https://github.com/Quorafind/Outliner.MD) maintained
+> only so the fix in
+> [Quorafind/Outliner.MD#107](https://github.com/Quorafind/Outliner.MD/pull/107)
+> can be installed via BRAT while that PR is open: the frontmatter regex in
+> `OutlinerEditorView.setState` was greedy, so any note containing a `---`
+> thematic break rendered only the part after the *last* `---`.
+>
+> Releases here are versioned `0.1.14+` to sort above upstream's `0.1.13`. If
+> upstream releases again, retire this fork and go back to the upstream repo.
+> All credit and copyright remain with the original author; distributed under
+> the upstream FSL-1.1-Apache-2.0 licence.
+
 # Obsidian Outliner View
 
 <div align="center">
