@@ -315,7 +315,11 @@ export class OutlinerEditorView
 				if (file) {
 					const data = await this.app.vault.read(file);
 					// const frontmatter = this.app.metadataCache.getFileCache(file)?.frontmatterPosition;
-					const frontmatter = /^---\n[\s\S]*\n---/m.exec(data);
+					// Frontmatter only counts when it opens the file, and it ends at the
+					// FIRST closing delimiter. A greedy match ran to the last `---` in
+					// the document, so every `---` thematic break swallowed everything
+					// above it and the view rendered only the tail of the note.
+					const frontmatter = /^---\n[\s\S]*?\n---/.exec(data);
 					let finalData = data;
 
 					if (frontmatter) {
