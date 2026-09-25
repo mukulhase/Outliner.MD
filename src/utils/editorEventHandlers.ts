@@ -26,16 +26,18 @@ export function handleRegularEnter(
 ): boolean {
 	// Implementation moved from handleRegularEnter in keyDownHandler.ts
 	if (lineText.startsWith("- ")) {
+		// Continue a task as a new unchecked task, not a plain bullet.
+		const marker = /^- \[.\] /.test(lineText) ? "- [ ] " : "- ";
 		editor.transaction({
 			changes: [
 				{
-					text: "\n- ",
+					text: `\n${marker}`,
 					from: { line, ch: ch },
 				},
 			],
 			selection: {
-				from: { line: line, ch: ch + 3 },
-				to: { line: line, ch: ch + 3 },
+				from: { line: line, ch: ch + 1 + marker.length },
+				to: { line: line, ch: ch + 1 + marker.length },
 			},
 		});
 		return true;
