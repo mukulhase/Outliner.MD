@@ -3,6 +3,7 @@ import {
 	Editor,
 	type MarkdownFileInfo,
 	Menu,
+	Platform,
 	Scope,
 	SearchComponent,
 	Setting,
@@ -334,9 +335,12 @@ export class OutlinerEditorView
 					}
 					setTimeout(() => {
 						if (!this.editor) return;
-						this.editor.focus();
-						const content = this.editor.getValue();
-						this.editor.setCursor(content.length - 1);
+						// Open at the top of the note. This used to pass the character
+						// count to setCursor, which takes a LINE number, so it clamped to
+						// the last line and every open scrolled to the end of the note.
+						// Skip focus on mobile so opening a note doesn't pop the keyboard.
+						this.editor.setCursor({ line: 0, ch: 0 });
+						if (!Platform.isMobile) this.editor.focus();
 
 						this.editor.editorComponent.sizerEl?.prepend(
 							this.inlineTitleEl
