@@ -21,18 +21,20 @@ export abstract class BaseEnterHandler extends BaseEventHandler {
 	protected insertNewListItem(
 		context: EventHandlerContext
 	): EventHandlerResult {
-		const { editor, line, ch } = context;
+		const { editor, line, ch, lineText } = context;
+		// Continue a task as a new unchecked task, not a plain bullet.
+		const marker = /^- \[.\] /.test(lineText) ? "- [ ] " : "- ";
 
 		editor.transaction({
 			changes: [
 				{
-					text: "\n- ",
+					text: `\n${marker}`,
 					from: { line, ch },
 				},
 			],
 			selection: {
-				from: { line: line + 1, ch: 2 },
-				to: { line: line + 1, ch: 2 },
+				from: { line: line + 1, ch: marker.length },
+				to: { line: line + 1, ch: marker.length },
 			},
 		});
 
